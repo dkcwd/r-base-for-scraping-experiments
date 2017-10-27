@@ -1,3 +1,6 @@
+# our R base image
+FROM r-base
+
 # install packages
 RUN echo 'install.packages(c("rvest", "plyr", "purrr", "googlesheets", "stringr", "dplyr", "httr"), repos="http://cran.us.r-project.org", dependencies=TRUE)' > /tmp/packages.R \
     && Rscript /tmp/packages.R
