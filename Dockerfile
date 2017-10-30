@@ -8,6 +8,10 @@ RUN apt-get update \
     && apt-get install -y libssl-dev \
     && apt-get install -y libcurl4-openssl-dev
 
+# install R packages
+RUN echo 'install.packages(c("rvest", "plyr", "purrr", "googlesheets", "stringr", "dplyr", "httr"), repos="http://cran.us.r-project.org", dependencies=TRUE)' > /tmp/packages.R \
+    && Rscript /tmp/packages.R
+
 # create an R user
 ENV HOME /home/user
 RUN useradd --create-home --home-dir $HOME user \
@@ -15,10 +19,6 @@ RUN useradd --create-home --home-dir $HOME user \
 
 WORKDIR $HOME
 USER user
-
-# install R packages
-RUN echo 'install.packages(c("rvest", "plyr", "purrr", "googlesheets", "stringr", "dplyr", "httr"), repos="http://cran.us.r-project.org", dependencies=TRUE)' > /tmp/packages.R \
-    && Rscript /tmp/packages.R
 
 # set the command
 CMD ["R"]
